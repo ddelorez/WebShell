@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 import paramiko
 import json
 import threading
+from gunicorn import glogging
 
 app = Flask(__name__)
 
@@ -63,3 +64,7 @@ def command():
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
+else:
+    gunicorn_error_logger = glogging.Logger(app.logger, glogging.ERROR)
+    app.logger.handlers = gunicorn_error_logger.handlers
+    app.logger.setLevel(gunicorn_error_logger.level)
