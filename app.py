@@ -2,7 +2,6 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import paramiko
 import json
-import threading
 from gunicorn import glogging
 
 app = Flask(__name__)
@@ -63,7 +62,7 @@ def command():
         return jsonify({"status": "error", "message": str(e)}), 400
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port =5001)
+    app.run(debug=True, host='0.0.0.0', port=5001)
 else:
     gunicorn_error_logger = glogging.Logger(app.logger, glogging.ERROR)
     app.logger.handlers = gunicorn_error_logger.handlers
